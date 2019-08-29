@@ -16,12 +16,32 @@ L.Icon.Default.mergeOptions({
 
 export default {
   mounted() {
-    const map = L.map("app", {
-      center: L.latLng(35.6825, 139.752778),
-      zoom: 15
-    })
-      .addLayer(L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png"))
-      .on("click", p => map.addLayer(L.marker(p.latlng)));
+    // マップオブジェクト生成
+    // データソースはOpenStreetMap
+    const map = L.map("app").addLayer(
+      L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png")
+    );
+
+    // 位置情報検索
+    map.locate({ setView: true, maxZoom: 10 });
+
+    // 位置情報取得成功処理
+    function onLocationFound(e) {
+      var radius = e.accuracy / 2;
+      L.marker(e.latlng)
+        .addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point")
+        .openPopup();
+
+      L.circle(e.latlng, radius).addTo(map);
+    }
+    map.on("locationfound", onLocationFound);
+
+    // 位置情報取得エラー処理
+    function onLocationError(e) {
+      alert(e.message);
+    }
+    map.on("locationerror", onLocationError);
   }
 };
 </script>
