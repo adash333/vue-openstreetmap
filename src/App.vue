@@ -19,7 +19,9 @@ export default {
     // マップオブジェクト生成
     // データソースはOpenStreetMap
     const map = L.map("app").addLayer(
-      L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png")
+      L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+    	})
     );
 
     // 位置情報検索
