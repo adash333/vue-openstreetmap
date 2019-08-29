@@ -23,15 +23,17 @@ export default {
     );
 
     // 位置情報検索
-    map.locate({ setView: true, maxZoom: 10 });
+    setInterval(() => {
+      map.locate({ setView: true, maxZoom: 20, zoom: 20 });
+    }, 5000);
+    // map.locate({ setView: true, maxZoom: 10 });
 
     // 位置情報取得成功処理
     function onLocationFound(e) {
       var radius = e.accuracy / 2;
-      L.marker(e.latlng)
-        .addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point")
-        .openPopup();
+      L.marker(e.latlng).addTo(map);
+      //.bindPopup("You are within " + radius + " meters from this point")
+      //.openPopup();
 
       L.circle(e.latlng, radius).addTo(map);
     }
